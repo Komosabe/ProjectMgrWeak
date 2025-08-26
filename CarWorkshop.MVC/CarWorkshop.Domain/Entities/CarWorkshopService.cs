@@ -13,7 +13,6 @@ namespace CarWorkshop.Domain.Entities
         public string? Description { get; set; }
         public decimal Price { get; set; }
 
-        // Relacja do warsztatu
         public int CarWorkshopId { get; set; }
         public CarWorkshop CarWorkshop { get; set; } = default!;
     }

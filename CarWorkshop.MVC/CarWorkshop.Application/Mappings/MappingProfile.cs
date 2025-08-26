@@ -31,9 +31,14 @@ namespace CarWorkshop.Application.Mappings
                 .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.ContactDetails.Street))
                 .ForMember(dest => dest.PostalCode, opt => opt.MapFrom(src => src.ContactDetails.PostalCode))
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactDetails.PhoneNumber))
-                            .ForMember(dest => dest.IsEditable,opt => opt.MapFrom(src =>currentUser != null && (src.CreatedById == currentUser.Id ||currentUser.IsInRole("Moderator"))));
+                            .ForMember(dest => dest.IsEditable,opt => opt.MapFrom(
+                                src =>currentUser != null &&
+                                (src.CreatedById == currentUser.Id ||currentUser.IsInRole("Moderator"))));
 
             CreateMap<CarWorkshopDto, EditCarWorkshopCommand>();
+            CreateMap<CarWorkshopService, CarWorkshopServiceDto>();
+            CreateMap<CarWorkshopServiceDto, CarWorkshopService>();
+
         }
     }
 }
