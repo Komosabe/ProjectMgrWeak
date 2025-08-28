@@ -1,29 +1,33 @@
 using CarWorkshop.Infrastructure.Extensions;
 using CarWorkshop.Infrastructure.Seeders;
 using CarWorkshop.Application.Extensions;
+using Microsoft.EntityFrameworkCore;
+using CarWorkshop.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 
-
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 
 var app = builder.Build();
 
-var scope = app.Services.CreateScope();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
 
-var seeder = scope.ServiceProvider.GetRequiredService<CarWorkshopSeeder>();
+    var dbContext = services.GetRequiredService<CarWorkshopDbContext>();
+    dbContext.Database.Migrate();
 
-await seeder.Seed();
+    var seeder = services.GetRequiredService<CarWorkshopSeeder>();
+    await seeder.Seed();
+}
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__CarWorkshop=Host=db;Port=5432;Database=CarWorkshopDb;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Include Error Detail=true
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - appnet
+
+  db:
+    image: postgres:16
+    container_name: postgres
+    ports:
+      - "5432:5432"  
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=CarWorkshopDb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - appnet
+
+networks:
+  appnet: {}
+
+volumes:
+  pgdata: {}

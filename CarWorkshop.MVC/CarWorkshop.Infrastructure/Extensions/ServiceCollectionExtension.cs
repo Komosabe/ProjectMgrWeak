@@ -13,8 +13,8 @@ namespace CarWorkshop.Infrastructure.Extensions
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<CarWorkshopDbContext>(options => options.UseSqlServer(
-                configuration.GetConnectionString("CarWorkshop")));
+            services.AddDbContext<CarWorkshopDbContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("CarWorkshop")));
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
