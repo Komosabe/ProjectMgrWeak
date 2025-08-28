@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarWorkshop.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CarWorkshopDbContext))]
-    [Migration("20250828165633_InitialPostgres")]
+    [Migration("20250828173310_InitialPostgres")]
     partial class InitialPostgres
     {
         /// <inheritdoc />
@@ -48,9 +48,6 @@ namespace CarWorkshop.Infrastructure.Persistence.Migrations
                     b.Property<string>("EncodedName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()

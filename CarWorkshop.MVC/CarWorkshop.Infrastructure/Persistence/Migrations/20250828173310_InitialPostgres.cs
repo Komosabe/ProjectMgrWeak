@@ -172,8 +172,7 @@ namespace CarWorkshop.Infrastructure.Persistence.Migrations
                     ContactDetailsPostalCode = table.Column<string>(name: "ContactDetails_PostalCode", type: "text", nullable: true),
                     About = table.Column<string>(type: "text", nullable: true),
                     CreatedById = table.Column<string>(type: "text", nullable: true),
-                    EncodedName = table.Column<string>(type: "text", nullable: false),
-                    IsAvailable = table.Column<bool>(type: "boolean", nullable: false)
+                    EncodedName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
